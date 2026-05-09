@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TidungGo - Pesan Langsung WhatsApp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #F8FAFC 0%, #E0F2FE 100%);
+            color: #1E293B;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255,255,255,0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #1E3A8A, #0EA5E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .weather {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #EFF6FF;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 140px 20px 60px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(45deg, #1E3A8A, #0EA5E9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: #64748B;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Menu Grid */
+        .menu-section {
+            padding: 0 20px 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .menu-card {
+            background: white;
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 3px solid transparent;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .menu-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #1E3A8A, #0EA5E9);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 30px 80px rgba(0,0,0,0.15);
+            border-color: #0EA5E9;
+        }
+
+        .menu-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .menu-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            display: block;
+            line-height: 1;
+        }
+
+        .ojek-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+            font-size: 4rem;
+        }
+
+        .ojek-body {
+            font-size: 3.8rem;
+            display: block;
+        }
+
+        .ojek-passenger {
+            font-size: 2.2rem;
+            position: relative;
+            top: -0.5rem;
+        }
+
+        .food { color: #10B981; }
+        .tour { color: #F59E0B; }
+        .rent { color: #8B5CF6; }
+        .stay { color: #EF4444; }
+        .motor { color: #F97316; }
+        .bike { color: #14B8A6; }
+        .boat { color: #06B6D4; }
+        .emergency { 
+            color: #DC2626; 
+            border: 3px solid #DC2626;
+            animation: pulse 2s infinite;
+        }
+        .ojek { color: #1E3A8A; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220,38,38,0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(220,38,38,0); }
+            100% { box-shadow: 0 0 0 0 rgba(220,38,38,0); }
+        }
+
+        .menu-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-desc {
+            color: #64748B;
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .menu-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #1E3A8A;
+        }
+
+        .whatsapp-btn {
+            display: inline-block;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 1.5rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(37,211,102,0.4);
+        }
+
+        .whatsapp-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(37,211,102,0.5);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* WhatsApp Float */
+        .whatsapp-float {
+            position: fixed;
+            width: 70px;
+            height: 70px;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #25D366, #128C7E);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            box-shadow: 0 15px 40px rgba(37,211,102,0.5);
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            animation: bounce 2s infinite;
+        }
+
+        .whatsapp-float:hover {
+            transform: scale(1.15);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Popular Section */
+        .popular-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1E3A8A 0%, #0EA5E9 100%);
+            color: white;
+        }
+
+        .popular-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .popular-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .popular-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 3rem;
+        }
+
+        .popular-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .popular-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(20px);
+            padding: 2.5rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+
+        .popular-card:hover {
+            transform: translateY(-8px);
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .whatsapp-float {
+                width: 60px;
+                height: 60px;
+                font-size: 1.6rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .menu-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">🌊 TidungGo</div>
+            <div class="header-info">
+                <div class="weather">
+                    <i class="fas fa-sun"></i>
+                    <span>30°C Cerah</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h1>Pulau Tidung <br> <strong>Semua Layanan #1</strong></h1>
+        <p>Pesan ojek, motor, sepeda, makanan, snorkeling, homestay, kapal & rental. Langsung terhubung ke WhatsApp Admin 24/7!</p>
+    </section>
+
+    <!-- Menu Section -->
+    <section class="menu-section">
+        <div class="menu-grid">
+            <!-- Ojek -->
+            <div class="menu-card ojek" onclick="orderWhatsApp('ojek')">
+                <div class="menu-icon ojek-icon">
+                    <span class="ojek-body">🏍️</span>
+                    <span class="ojek-passenger"></span>
+                </div>
+                <h3 class="menu-title">Pesan Ojek</h3>
+                <p class="menu-desc">Jemput dari pelabuhan ke homestay, Jembatan Cinta, dll. Max 4 orang</p>
+                <div class="menu-price">Rp 25.000 - 35.000</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('ojek')">
+                    <i class="fab fa-whatsapp"></i> Pesan Sekarang
+                </a>
+            </div>
+
+            <!-- Sewa Motor -->
+            <div class="menu-card motor" onclick="orderWhatsApp('motor')">
+                <div class="menu-icon">
+                    <i class="fas fa-motorcycle"></i>
+                </div>
+                <h3 class="menu-title">Sewa Motor</h3>
+                <p class="menu-desc">Motor matic siap pakai, helm lengkap, keliling pulau bebas</p>
+                <div class="menu-price">Rp 150.000/hari</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('motor')">
+                    <i class="fab fa-whatsapp"></i> Sewa Motor
+                </a>
+            </div>
+
+            <!-- Sewa Sepeda -->
+            <div class="menu-card bike" onclick="orderWhatsApp('sepeda')">
+                <div class="menu-icon">
+                    <i class="fas fa-bicycle"></i>
+                </div>
+                <h3 class="menu-title">Sewa Sepeda</h3>
+                <p class="menu-desc">Sepeda gunung & city bike, explore pulau santai & sehat</p>
+                <div class="menu-price">Rp 25.000/hari</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('sepeda')">
+                    <i class="fab fa-whatsapp"></i> Sewa Sepeda
+                </a>
+            </div>
+
+            <!-- Food -->
+            <div class="menu-card food" onclick="orderWhatsApp('makanan')">
+                <div class="menu-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="menu-title">Pesan Makanan</h3>
+                <p class="menu-desc">Ikan bakar, nasi goreng seafood, makanan lokal terbaik</p>
+                <div class="menu-price">Rp 25.000+</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('makanan')">
+                    <i class="fab fa-whatsapp"></i> Pesan Makan
+                </a>
+            </div>
+
+            <!-- Tour -->
+            <div class="menu-card tour" onclick="orderWhatsApp('snorkeling')">
+                <div class="menu-icon">
+                    <i class="fas fa-swimmer"></i>
+                </div>
+                <h3 class="menu-title">Snorkeling</h3>
+                <p class="menu-desc">Paket lengkap + guide berpengalaman + peralatan</p>
+                <div class="menu-price">Rp 150.000/orang</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('snorkeling')">
+                    <i class="fab fa-whatsapp"></i> Booking Tour
+                </a>
+            </div>
+
+            <!-- Rent Kano -->
+            <div class="menu-card rent" onclick="orderWhatsApp('rental')">
+                <div class="menu-icon">
+                    <i class="fas fa-water"></i>
+                </div>
+                <h3 class="menu-title">Rental Kano</h3>
+                <p class="menu-desc">Kano kayuh keliling pulau, sunset trip romantis</p>
+                <div class="menu-price">Rp 50.000/jam</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('rental')">
+                    <i class="fab fa-whatsapp"></i> Rental Sekarang
+                </a>
+            </div>
+
+            <!-- Stay -->
+            <div class="menu-card stay" onclick="orderWhatsApp('homestay')">
+                <div class="menu-icon">
+                    <i class="fas fa-home"></i>
+                </div>
+                <h3 class="menu-title">Homestay</h3>
+                <p class="menu-desc">AC, WiFi, view laut, dekat pantai & Jembatan Cinta</p>
+                <div class="menu-price">Rp 350.000/malam</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('homestay')">
+                    <i class="fab fa-whatsapp"></i> Booking Kamar
+                </a>
+            </div>
+
+            <!-- Sewa Kapal -->
+            <div class="menu-card boat" onclick="orderWhatsApp('kapal')">
+                <div class="menu-icon">
+                    <i class="fas fa-ship"></i>
+                </div>
+                <h3 class="menu-title">Sewa Kapal</h3>
+                <p class="menu-desc">Kapal Tradisional, Spot Mancing Gacor, Pulau Tidung Kecil, snorkeling spot</p>
+                <div class="menu-price">Rp 750.000/kapal</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); orderWhatsApp('kapal')">
+                    <i class="fab fa-whatsapp"></i> Sewa Kapal
+                </a>
+            </div>
+
+            <!-- Emergency -->
+            <div class="menu-card emergency" onclick="emergencyWhatsApp()">
+                <div class="menu-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="menu-title">Bantuan Darurat</h3>
+                <p class="menu-desc">Kecelakaan, tersesat, medis 24/7</p>
+                <div class="menu-price">GRATIS 24/7</div>
+                <a href="#" class="whatsapp-btn" onclick="event.preventDefault(); emergencyWhatsApp()">
+                    <i class="fas fa-phone"></i> SOS SEKARANG
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Section -->
+    <section class="popular-section">
+        <div class="popular-container">
+            <h2 class="popular-title">⭐ Paling Populer Hari Ini</h2>
+            <p class="popular-subtitle">Jutaan wisatawan mempercayai TidungGo</p>
+            <div class="popular-grid">
+                <div class="popular-card">
+                    <h3>🏍️ Sewa Motor Pak Yanto</h3>
+                    <p><strong>Rp 150.000 • 4.9⭐</strong><br>45+ unit tersedia hari ini</p>
+                </div>
+                <div class="popular-card">
+                    <h3>🍲 Ikan Bakar Pak Joko</h3>
+                    <p><strong>Rp 35.000 • 4.9⭐</strong><br>150+ pesanan hari ini</p>
+                </div>
+                <div class="popular-card">
+                    <h3>🏄 Pak Budi Snorkeling</h3>
+                    <p><strong>4.9⭐ (289 ulasan)</strong><br>3 slot tersisa jam 09:00</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float" onclick="orderWhatsApp('umum')" title="Chat WhatsApp Admin +62 85710748810">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+
+    <!-- WhatsApp Script -->
+    <script>
+        const ADMIN_PHONE = "6285710748810"; // +62 85710748810 (format WhatsApp)
+        
+        function orderWhatsApp(service) {
+            let message = "";
+            
+            switch(service) {
+                case 'ojek':
+                    message = "🏍️ *PESAN OJKE TIDUNGGO*\n\nHalo Admin! Saya mau pesan Ojek:\n📍 Lokasi sekarang: \n📍 Tujuan: \n⏰ Jam: \n👥 Jumlah orang: (Max 4 orang)\n\nMohon info estimasi harga & driver terdekat!";
+                    break;
+                case 'motor':
+                    message = "🏍️ *SEWA MOTOR TIDUNGGO*\n\nHalo Admin! Mau sewa motor:\n📅 Tanggal:\n⏰ Jam ambil:\n👥 Jumlah unit:\n💰 Rp 150K/hari (termasuk helm)\n\nMotor matic tersedia?";
+                    break;
+                case 'sepeda':
+                    message = "🚴 *SEWA SEPEDA TIDUNGGO*\n\nHalo Admin! Mau sewa sepeda:\n📅 Tanggal:\n⏰ Jam ambil:\n👥 Jenis sepeda (gunung/city):\n💰 Rp 25K/hari\n\nSepeda tersedia?";
+                    break;
+                case 'makanan':
+                    message = "🍲 *PESAN MAKANAN TIDUNGGO*\n\nHalo Admin! Saya mau pesan:\n\n1. Ikan Bakar Pak Joko - Rp 35K\n2. Nasi Goreng Seafood - Rp 28K\n\n📍 Lokasi pengiriman:\n⏰ Jam makan:\n\nSiap berapa menit?";
+                    break;
+                case 'snorkeling':
+                    message = "🤿 *BOOKING SNORKELING*\n\nHalo Admin! Mau booking:\n📅 Paket Snorkeling Pak Budi\n💰 Rp 150K/orang\n👥 Jumlah orang:\n📅 Tanggal/Jam:\n\nMasih ada slot kosong?";
+                    break;
+                case 'rental':
+                    message = "🚣 *RENTAL KANO*\n\nHalo Admin! Mau rental kano:\n⏰ Durasi: __ jam\n📅 Tanggal:\n👥 Jumlah orang:\n\nBoleh mulai jam berapa?";
+                    break;
+                case 'homestay':
+                    message = "🏠 *BOOKING HOMESTAY*\n\nHalo Admin! Mau booking homestay:\n📅 Check-in: \n📅 Check-out:\n👥 Jumlah orang:\n💰 Rp 350K/malam\n\nAda kamar kosong?";
+                    break;
+                case 'kapal':
+                    message = "⛵ *SEWA KAPAL TIDUNGGO*\n\nHalo Admin! Mau sewa kapal:\n📅 Tanggal:\n⏰ Jam berangkat:\n👥 Jumlah orang:\n💰 Rp 750K/kapal\n📍 Tujuan:\n\nKapal tersedia?";
+                    break;
+                case 'umum':
+                    message = "Halo TidungGo! 👋\n\nSaya mau tanya layanan di Pulau Tidung.\nBisa bantu info lengkap?";
+                    break;
+                default:
+                    message = "Halo TidungGo! Saya mau pesan layanan.";
+            }
+            
+            const url = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+        
+        function emergencyWhatsApp() {
+            const message = "🚨 *DARURAT TIDUNGGO* 🚨\n\nTOLONG BANTUAN SEGERA!\n📍 Lokasi: \n📱 Nomor HP: \n\n[ISI KEADAAN DARURAT ANDA]";
+            const url = `https://wa.me/${ADMIN_PHONE}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
