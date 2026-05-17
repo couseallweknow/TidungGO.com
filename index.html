@@ -1003,8 +1003,20 @@ async function loadWeather() {
 
 loadWeather();
 </script>
-<audio id="beachMusic" autoplay loop>
+<audio id="bgMusic" autoplay loop playsinline>
     <source src="beach.mp3" type="audio/mpeg">
 </audio>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const music = document.getElementById("bgMusic");
+
+    try {
+        await music.play();
+    } catch(err) {
+        console.log("Autoplay diblokir browser");
+    }
+});
+</script>
   </body>
               </html>
