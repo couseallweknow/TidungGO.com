@@ -691,6 +691,9 @@
     </style>
   </head>
   <body>
+    <audio id="bg-music" autoplay loop>
+      <source src="beach.mp3" type="audio/mpeg">
+    </audio>
     <!-- Header -->
     <header class="header">
       <div class="header-content">
@@ -1020,5 +1023,15 @@ Mohon info detail paketnya 🙌`;
       }
       loadWeather();
     </script>
+    <script>
+      document.addEventListener('click', function() {
+        const music = document.getElementById('bg-music');
+        if (music.paused) {
+          music.play();
+        }
+      }, {
+        once: true
+      });
+    </script>
   </body>
-</html>
+  </html>
