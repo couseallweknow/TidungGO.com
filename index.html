@@ -1001,37 +1001,21 @@ Mohon info detail paketnya 🙌`;
       <button class="wa-btn" onclick="orderWhatsApp('umum')"> 💬 Chat WhatsApp </button>
     </div>
     <script>
-      async function loadWeather() {
-        const API_KEY = "f1c706ee1e6f1cf03ea0f87aba69fa49";
-        const city = "Jakarta";
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city},ID&units=metric&lang=id&appid=${API_KEY}`;
-        try {
-          const response = await fetch(url);
-          const data = await response.json();
-          console.log(data);
-          if (data.cod != 200) {
-            throw new Error(data.message);
-          }
-          const temp = Math.round(data.main.temp);
-          const weather = data.weather[0].description;
-          document.querySelector(".weather").innerHTML = `
-            ☀️ ${temp}°C ${weather}
-        `;
-        } catch (error) {
-          console.log("ERROR:", error);
-        }
-      }
-      loadWeather();
-    </script>
-    <script>
-      document.addEventListener('click', function() {
-        const music = document.getElementById('bg-music');
-        if (music.paused) {
-          music.play();
-        }
-      }, {
-        once: true
-      });
-    </script>
+  async function loadWeather() {
+    try {
+      const response = await fetch("/api/weather?city=Jakarta");
+      const data = await response.json();
+      if (!response.ok) throw new Error(data?.error || "Weather error");
+
+      document.querySelector(".weather").innerHTML = `☀️ ${data.temp}°C ${data.description}`;
+    } catch (e) {
+      // opsional: fallback tampilan
+      // document.querySelector(".weather").innerHTML = `☀️ Cuaca tidak tersedia`;
+    }
+  }
+
+  loadWeather();
+</script>
+
   </body>
           </html>
